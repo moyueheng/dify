@@ -2,7 +2,7 @@ version: '3'
 services:
   # API service
   api:
-    image: langgenius/dify-api:0.6.8
+    image: langgenius/dify-api:0.6.9
     restart: always
     environment:
       # Startup mode, 'api' starts the API server.
@@ -36,6 +36,9 @@ services:
       # used to display File preview or download Url to the front-end or as Multi-model inputs;
       # Url is signed and has expiration time.
       FILES_URL: ''
+      # File Access Time specifies a time interval in seconds for the file to be accessed.
+      # The default value is 300 seconds.
+      FILES_ACCESS_TIMEOUT: 300
       # When enabled, migrations will be executed prior to application startup and the application will start after the migrations have completed.
       MIGRATION_ENABLED: 'true'
       # The configurations of postgres database connection.
@@ -136,10 +139,11 @@ services:
       # default send from email address, if not specified
       MAIL_DEFAULT_SEND_FROM: 'YOUR EMAIL FROM (eg: no-reply <no-reply@dify.ai>)'
       SMTP_SERVER: ''
-      SMTP_PORT: 587
+      SMTP_PORT: 465
       SMTP_USERNAME: ''
       SMTP_PASSWORD: ''
       SMTP_USE_TLS: 'true'
+      SMTP_OPPORTUNISTIC_TLS: 'false'
       # the api-key for resend (https://resend.com)
       RESEND_API_KEY: ''
       RESEND_API_URL: https://api.resend.com
@@ -185,7 +189,7 @@ services:
   # worker service
   # The Celery worker for processing the queue.
   worker:
-    image: langgenius/dify-api:0.6.8
+    image: langgenius/dify-api:0.6.9
     restart: always
     environment:
       CONSOLE_WEB_URL: ''
@@ -265,10 +269,11 @@ services:
       # default send from email address, if not specified
       MAIL_DEFAULT_SEND_FROM: 'YOUR EMAIL FROM (eg: no-reply <no-reply@dify.ai>)'
       SMTP_SERVER: ''
-      SMTP_PORT: 587
+      SMTP_PORT: 465
       SMTP_USERNAME: ''
       SMTP_PASSWORD: ''
       SMTP_USE_TLS: 'true'
+      SMTP_OPPORTUNISTIC_TLS: 'false'
       # the api-key for resend (https://resend.com)
       RESEND_API_KEY: ''
       RESEND_API_URL: https://api.resend.com
@@ -303,7 +308,7 @@ services:
 
   # Frontend web application.
   web:
-    image: langgenius/dify-web:0.6.8
+    image: langgenius/dify-web:0.6.9
     restart: always
     environment:
       # The base URL of console application api server, refers to the Console base URL of WEB service if console domain is
